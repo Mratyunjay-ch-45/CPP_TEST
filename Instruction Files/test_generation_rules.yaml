@@ -1,0 +1,100 @@
+test_generation_guidelines:
+  framework: "Google Test"
+  
+  naming_conventions:
+    test_file_suffix: "_test.cpp"
+    test_class_prefix: "Test"
+    test_method_prefix: "test_"
+    
+  test_structure:
+    required_includes:
+      - "gtest/gtest.h"
+      - "gmock/gmock.h"
+    
+    test_file_template: |
+      #include "gtest/gtest.h"
+      #include "gmock/gmock.h"
+      #include "{header_file}"
+      
+      using namespace testing;
+      
+      class {ClassName}Test : public ::testing::Test {
+      protected:
+          void SetUp() override {
+              // Setup code here
+          }
+          
+          void TearDown() override {
+              // Cleanup code here
+          }
+          
+          // Test fixtures and helper methods
+      };
+      
+      // Test cases go here
+      
+  test_case_requirements:
+    - test_normal_cases: "Test typical usage scenarios"
+    - test_edge_cases: "Test boundary conditions and edge cases"
+    - test_error_cases: "Test error handling and invalid inputs"
+    - test_null_inputs: "Test with null/empty inputs where applicable"
+    - test_memory_management: "Test memory allocation/deallocation if applicable"
+    
+  test_patterns:
+    basic_test:
+      structure: |
+        TEST_F({ClassName}Test, {TestName}) {
+            // Arrange
+            
+            // Act
+            
+            // Assert
+            EXPECT_EQ(expected, actual);
+        }
+    
+    parameterized_test:
+      structure: |
+        class {ClassName}ParameterizedTest : public ::testing::TestWithParam<{ParamType}> {
+        };
+        
+        TEST_P({ClassName}ParameterizedTest, {TestName}) {
+            auto param = GetParam();
+            // Test implementation
+        }
+        
+        INSTANTIATE_TEST_SUITE_P({SuiteName}, {ClassName}ParameterizedTest,
+                               ::testing::Values(/* test values */));
+    
+    mock_test:
+      structure: |
+        class Mock{ClassName} : public {ClassName} {
+        public:
+            MOCK_METHOD({ReturnType}, {MethodName}, ({Parameters}), (override));
+        };
+        
+        TEST_F({ClassName}Test, {TestName}) {
+            Mock{ClassName} mock_obj;
+            EXPECT_CALL(mock_obj, {MethodName}(_))
+                .WillOnce(Return({ExpectedValue}));
+            // Test implementation
+        }
+        
+  assertion_guidelines:
+    equality: "Use EXPECT_EQ/ASSERT_EQ for exact matches"
+    floating_point: "Use EXPECT_NEAR/ASSERT_NEAR for floating point comparisons"
+    boolean: "Use EXPECT_TRUE/EXPECT_FALSE for boolean values"
+    exceptions: "Use EXPECT_THROW/EXPECT_NO_THROW for exception testing"
+    death_tests: "Use EXPECT_DEATH for testing program termination"
+    
+  coverage_requirements:
+    minimum_coverage: 80
+    critical_paths: "All error handling paths must be tested"
+    public_methods: "All public methods must have at least one test"
+    constructors: "All constructors must be tested"
+    destructors: "Test destructors for proper cleanup"
+    
+  code_quality:
+    max_test_length: 50  # lines
+    descriptive_names: true
+    comments_required: true
+    setup_teardown: "Use when needed for test isolation"

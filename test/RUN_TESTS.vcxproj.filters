@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\KIIT\Desktop\Keploy\Unit_Test_Generator\test\CMakeFiles\f18bb38c86c5385cc9713dd9a899804e\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{5459BD7F-2049-3EA1-93B5-41FE508D157C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

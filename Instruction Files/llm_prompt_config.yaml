@@ -1,0 +1,140 @@
+llm_prompt_instructions:
+  system_role: "You are an expert C++ test engineer specializing in Google Test framework."
+  
+  task_description: |
+    Generate comprehensive unit tests for the provided C++ code using Google Test framework.
+    Follow the strict guidelines provided in the YAML configuration.
+    
+  input_analysis:
+    - "Analyze the provided C++ header and implementation files"
+    - "Identify all public methods, constructors, and destructors"
+    - "Determine edge cases and error conditions"
+    - "Identify dependencies that may need mocking"
+    
+  output_requirements:
+    format: "Complete C++ test file with Google Test framework"
+    file_structure:
+      - "Proper includes and namespace declarations"
+      - "Test fixture class with setup/teardown"
+      - "Individual test cases for each method"
+      - "Parameterized tests where appropriate"
+      - "Mock objects for dependencies"
+      
+  test_categories:
+    functional_tests:
+      - "Normal operation tests"
+      - "Boundary condition tests"
+      - "Error handling tests"
+      
+    structural_tests:
+      - "Constructor/destructor tests"
+      - "State transition tests"
+      - "Memory management tests"
+      
+    integration_tests:
+      - "Dependency interaction tests"
+      - "Mock object verification tests"
+      
+  quality_checks:
+    - "Each test must have clear Arrange-Act-Assert structure"
+    - "Test names must be descriptive and follow naming conventions"
+    - "Include both positive and negative test cases"
+    - "Add comments explaining complex test scenarios"
+    - "Ensure test independence and isolation"
+    
+  specific_instructions:
+    - "Generate at least 3-5 tests per public method"
+    - "Include parameterized tests for methods with multiple input scenarios"
+    - "Create mock objects for external dependencies"
+    - "Test both success and failure paths"
+    - "Include performance-critical path testing"
+    - "Add death tests for functions that should terminate the program"
+    
+  code_style:
+    indentation: "4 spaces"
+    line_length: 100
+    comment_style: "// for single line, /* */ for multi-line"
+    
+  example_prompt_template: |
+    Please generate comprehensive unit tests for the following C++ code:
+    
+    HEADER FILE:
+    {header_content}
+    
+    IMPLEMENTATION FILE:
+    {implementation_content}
+    
+    REQUIREMENTS:
+    - Use Google Test framework
+    - Follow the naming conventions specified
+    - Generate tests for all public methods
+    - Include edge cases and error handling
+    - Create mock objects where needed
+    - Ensure minimum 80% code coverage
+    
+    OUTPUT: Complete C++ test file ready for compilation and execution.
+
+refinement_instructions:
+  purpose: "Refine and improve initially generated test files"
+  
+  removal_targets:
+    - "Duplicate test methods testing identical functionality"
+    - "Redundant assertions within the same test"
+    - "Unnecessary mock expectations"
+    - "Repeated setup code that should be in fixtures"
+    
+  library_additions:
+    required_includes:
+      - "#include <memory>"
+      - "#include <stdexcept>"
+      - "#include <vector>"
+      - "#include <string>"
+      - "#include <algorithm>"
+    conditional_includes:
+      - "For threading: #include <thread>, #include <mutex>"
+      - "For file I/O: #include <fstream>, #include <iostream>"
+      - "For containers: #include <map>, #include <set>, #include <unordered_map>"
+      - "For time: #include <chrono>"
+      
+  improvements:
+    test_structure:
+      - "Convert similar tests to parameterized tests using TEST_P"
+      - "Use test fixtures for shared setup/teardown"
+      - "Group related tests in test suites"
+      - "Add descriptive test names following Given_When_Then pattern"
+      
+    assertions:
+      - "Use ASSERT_* for critical preconditions"
+      - "Use EXPECT_* for test verifications"
+      - "Add custom error messages to assertions"
+      - "Use appropriate matchers (EXPECT_THAT, ElementsAre, etc.)"
+      
+    coverage:
+      - "Add boundary value tests (min, max, zero, negative)"
+      - "Include null pointer tests where applicable"
+      - "Test all error conditions and exceptions"
+      - "Add performance/timeout tests for critical paths"
+      
+    mock_improvements:
+      - "Use strict mocks where order matters"
+      - "Add InSequence for ordered expectations"
+      - "Use ON_CALL for default behaviors"
+      - "Verify mock expectations with Mock::VerifyAndClearExpectations"
+      
+  quality_enhancements:
+    comments:
+      - "Add class-level documentation"
+      - "Document complex test scenarios"
+      - "Explain why specific values are used in tests"
+      - "Add TODO comments for future improvements"
+      
+    performance:
+      - "Add benchmarking for performance-critical methods"
+      - "Test memory usage patterns"
+      - "Include stress tests for large inputs"
+      
+    maintainability:
+      - "Extract common test data to constants"
+      - "Use helper methods for complex test setup"
+      - "Make tests independent and isolated"
+      - "Ensure tests are deterministic"

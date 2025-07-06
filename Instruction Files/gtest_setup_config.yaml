@@ -1,0 +1,62 @@
+google_test_setup:
+  installation:
+    vcpkg_command: "vcpkg install gtest"
+    cmake_integration: |
+      find_package(GTest REQUIRED)
+      target_link_libraries(${PROJECT_NAME}_tests GTest::gtest_main GTest::gmock_main)
+      
+  cmake_configuration: |
+    cmake_minimum_required(VERSION 3.14)
+    project(UnitTests)
+    
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    
+    # Find required packages
+    find_package(GTest REQUIRED)
+    find_package(GMock REQUIRED)
+    
+    # Include directories
+    include_directories(${GTEST_INCLUDE_DIRS})
+    include_directories(${GMOCK_INCLUDE_DIRS})
+    
+    # Add test executable
+    add_executable(unit_tests
+        ${TEST_SOURCES}
+    )
+    
+    # Link libraries
+    target_link_libraries(unit_tests
+        ${GTEST_LIBRARIES}
+        ${GMOCK_LIBRARIES}
+        pthread
+    )
+    
+    # Enable testing
+    enable_testing()
+    add_test(NAME unit_tests COMMAND unit_tests)
+    
+  directory_structure:
+    tests_folder: "tests/"
+    build_folder: "build/"
+    source_folder: "src/"
+    
+  file_conventions:
+    test_file_pattern: "*_test.cpp"
+    header_file_pattern: "*.h, *.hpp"
+    implementation_pattern: "*.cpp"
+    
+  compilation_commands:
+    compile: "g++ -std=c++17 -I/path/to/gtest/include -L/path/to/gtest/lib test_file.cpp -lgtest -lgtest_main -pthread -o test_executable"
+    run: "./test_executable"
+    
+  common_flags:
+    - "-std=c++17"
+    - "-Wall"
+    - "-Wextra"
+    - "-g"  # Debug symbols
+    - "-O2"  # Optimization
+    
+  environment_variables:
+    GTEST_COLOR: "yes"
+    GTEST_OUTPUT: "xml:test_results.xml"
